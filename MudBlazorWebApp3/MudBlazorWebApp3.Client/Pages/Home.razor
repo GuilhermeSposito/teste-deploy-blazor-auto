@@ -1,0 +1,36 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="ChamaApi">Chamar API</MudButton>
+
+<MudText Typo="Typo.h6" Class="mt-4">
+    @message
+</MudText>
+
+
+@code{
+
+    public string message { get; set; } = "Hello, World!";
+
+
+    public async Task ChamaApi(){
+        try
+        {
+           var emaileSenha = new { email = "odair@piassa.com.br", senha = "69063360", is_admin = false };
+
+            // Corrigido: passa o objeto diretamente, sem ToString()
+            var retorno = await http.PostAsJsonAsync("auth/login", emaileSenha);
+
+            // Lê a resposta como string (ou outro tipo se for o caso)
+            var result = await retorno.Content.ReadAsStringAsync();
+            message = result;
+         
+        }
+        catch (Exception ex)
+        {
+            message = ex.Message;
+        }
+       
+    }
+}
